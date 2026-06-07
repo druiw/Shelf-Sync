@@ -1,51 +1,43 @@
-/* Layout shell */
+/* App shell: fixed sidebar + scrollable content area. */
 .layout {
   display: flex;
   min-height: 100vh;
-  background: #fff;
 }
 
-/* Sidebar lives at the left on desktop */
 .sidebar {
+  flex: 0 0 var(--sidebar-w);
+  width: var(--sidebar-w);
   position: sticky;
   top: 0;
-  flex: 0 0 280px; /* desktop width */
-  width: 280px;
+  align-self: flex-start;
+  height: 100vh;
 }
 
-/* Main fills remaining space */
 .main-content {
   flex: 1;
   min-width: 0;
-  padding: 32px;
+  padding: 32px 36px 56px;
 }
 
-/* ↓ Tablet & down: stack, sidebar becomes a top bar */
+.content-inner {
+  max-width: 1180px;
+  margin-inline: auto;
+}
+
+/* Tablet & down: sidebar becomes a top bar, content stacks below. */
 @media (max-width: 900px) {
   .layout {
     flex-direction: column;
   }
   .sidebar {
     width: 100%;
-    min-height: auto;
-    position: relative;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 12px;
-  }
-  .sidebar h1 {
-    font-size: 1.25rem;
-    line-height: 1.2;
-    margin: 0 8px 0 0;
-  }
-  .sidebar-button {
-    border-radius: 10px;
-    margin-left: 0;
-    width: auto;
-    white-space: nowrap;
+    flex-basis: auto;
+    position: sticky;
+    top: 0;
+    height: auto;
+    z-index: 20;
   }
   .main-content {
-    padding: 20px;
+    padding: 22px 18px 40px;
   }
 }
