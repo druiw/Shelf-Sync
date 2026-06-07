@@ -41,6 +41,7 @@ body {
 
 #root {
   min-height: 100vh;
+  min-height: 100dvh; /* dvh tracks iOS Safari's collapsing toolbar */
 }
 
 a {
@@ -68,4 +69,17 @@ select {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #c4c4d2;
+}
+
+/* On touch screens, iOS Safari zooms the whole page when a focused control's
+   font is < 16px (and never zooms back out). Bumping form controls to 16px on
+   small screens prevents that. Selectors are intentionally specific
+   (e.g. input.input) so they win regardless of CSS bundle order. */
+@media (max-width: 900px) {
+  input.input,
+  select.input,
+  input[type="search"],
+  input[type="number"] {
+    font-size: 16px;
+  }
 }

@@ -2,6 +2,7 @@
 .layout {
   display: flex;
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .sidebar {
@@ -11,12 +12,17 @@
   top: 0;
   align-self: flex-start;
   height: 100vh;
+  height: 100dvh;
 }
 
 .main-content {
   flex: 1;
   min-width: 0;
   padding: 32px 36px 56px;
+  /* Respect notch / home-indicator on iPhones (viewport-fit=cover). */
+  padding-right: max(36px, env(safe-area-inset-right));
+  padding-left: max(36px, env(safe-area-inset-left));
+  padding-bottom: max(56px, env(safe-area-inset-bottom));
 }
 
 .content-inner {
@@ -36,8 +42,13 @@
     top: 0;
     height: auto;
     z-index: 20;
+    padding-right: max(14px, env(safe-area-inset-right));
+    padding-left: max(14px, env(safe-area-inset-left));
   }
   .main-content {
     padding: 22px 18px 40px;
+    padding-right: max(18px, env(safe-area-inset-right));
+    padding-left: max(18px, env(safe-area-inset-left));
+    padding-bottom: max(40px, env(safe-area-inset-bottom));
   }
 }
