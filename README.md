@@ -1,53 +1,42 @@
 # Order Dashboard
 
-A small inventory & orders dashboard built with **React + Vite**. It started as a
-learning project for wiring a React UI up to a **Supabase** (Postgres) backend,
-and has been reworked into a polished, self-contained demo suitable for a
+A small inventory dashboard I built with React and Vite. It started as a way to
+learn Supabase, then I turned it into a self-contained demo I could put on my
 portfolio.
 
-## Features
+You can add stock for products, edit quantities, and remove items. There are
+also Orders, Products, and Customers pages with some sample data so it feels like
+a real dashboard.
 
-- **Dashboard** – summary stats (units in stock, inventory value, low-stock
-  alerts), recent orders, a stock-by-category breakdown, and at-a-glance totals.
-- **Inventory** – the interactive part: add stock for catalog products, edit
-  quantities inline, and remove items. Everything is validated and bounded.
-- **Products** – the fixed product catalog as a filterable card grid.
-- **Orders** – sample order history with search and status filtering.
-- **Customers** – sample customer directory with search.
+## Data
 
-## How data works
+It's a public demo, so I didn't want a shared database that anyone could fill
+with junk. Instead:
 
-Because this is a public demo, it does **not** depend on a shared, writable
-database that anyone on the internet could fill with junk. Instead:
+- Products come from a fixed list, so you can only add stock for items that
+  already exist.
+- Your changes are saved in your own browser (localStorage), so everyone gets
+  their own copy and it works even if you're offline.
+- Orders and customers are just sample data.
 
-- Products come from a fixed **catalog** (`src/data/catalog.js`) — visitors can
-  only add stock for items that already exist, in small quantities.
-- Each visitor's inventory changes are saved to **their own browser**
-  (`localStorage`, see `src/hooks/useInventory.js`), so the demo is fully
-  interactive but isolated per visitor and always works — even offline.
-- Orders and customers use read-only **sample data** (`src/data/sampleData.js`).
+The original Supabase setup is still in `src/supabaseClient.js` if you want to
+see how that worked.
 
-### Supabase
-
-The original Supabase integration is kept in `src/supabaseClient.js` for
-reference. To run against a live database, add a `.env` file:
-
-```
-VITE_SUPABASE_URL=your-project-url
-VITE_SUPABASE_ANON_KEY=your-anon-key
-```
-
-and wire the client back into the inventory hook.
-
-## Getting started
+## Running it
 
 ```bash
 npm install
-npm run dev      # start the dev server
-npm run build    # production build
-npm run preview  # preview the production build
+npm run dev
 ```
 
-## Tech stack
+Then open the URL it prints (usually http://localhost:5173).
 
-React 19 · Vite · React Router · Supabase JS (reference) · plain CSS
+To make a production build:
+
+```bash
+npm run build
+```
+
+## Built with
+
+React, Vite, and React Router.
