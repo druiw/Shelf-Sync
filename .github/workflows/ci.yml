@@ -5,6 +5,8 @@ on:
   push:
     branches-ignore:
       - main
+  # Lets other workflows (preview, staging) reuse these checks.
+  workflow_call:
 
 # The workflow only needs to read the code, so don't give it write access.
 permissions:
