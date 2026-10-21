@@ -1,5 +1,7 @@
 # Stage 3 ("test/staging"): every merge to main re-runs the checks and
 # deploys to the staging environment (a Vercel preview deploy built from main).
+# Stage 4 (production): after staging succeeds, waits for a reviewer to approve
+# in the GitHub UI, then deploys to Vercel production.
 name: Release
 
 on:
@@ -54,3 +56,41 @@ jobs:
           url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
           echo "url=$url" >> "$GITHUB_OUTPUT"
           echo "Staging: $url" >> "$GITHUB_STEP_SUMMARY"
+
+  deploy-production:
+    name: Deploy to production
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    # The "production" environment has a required reviewer, so the job pauses
+    # here until someone approves it under "Review deployments".
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@61.1.0
+
+      - name: Pull Vercel project settings
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to Vercel (production)
+        id: deploy
+        run: |
+          url=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "Production: $url" >> "$GITHUB_STEP_SUMMARY"
