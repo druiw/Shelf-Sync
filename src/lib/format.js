@@ -7,11 +7,14 @@ export const currency = (n) =>
 
 export const number = (n) => new Intl.NumberFormat("en-US").format(n ?? 0);
 
+// Dates are stored as "YYYY-MM-DD", which JS parses as midnight UTC. Format in
+// UTC too, or visitors west of UTC see the previous day.
 export const shortDate = (iso) =>
   new Date(iso).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
+    timeZone: "UTC",
   });
 
 // Stock level → semantic status, used for badges and dashboard counts.
