@@ -6,7 +6,7 @@ portfolio.
 
 You can add stock for products, edit quantities, and remove items. There are
 also Orders, Products, and Customers pages with some sample data so it feels like
-a real dashboard.
+a real dashboard
 
 ## Data
 
